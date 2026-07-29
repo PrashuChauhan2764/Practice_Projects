@@ -1,0 +1,82 @@
+{
+  "07/04/2026": {
+    "day": "Researched company background, ongoing IT projects, and current tools used across departments.",
+    "task": "Company and technology research",
+    "status": "Completed",
+    "learning": "Understood organizational tech stack and workflow",
+    "challenge": "Limited access to internal documentation",
+    "rating": "7",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic2.jpeg"
+  },
+  "07/25/2026": {
+    "day": "Explored software tools and machines used in the IT department for daily operations.",
+    "task": "Tool and software evaluation",
+    "status": "Completed",
+    "learning": "Learned specifications and use-cases of internal tools",
+    "challenge": "Some tools lacked proper documentation",
+    "rating": "7",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic3.jpeg"
+  },
+  "07/26/2026": {
+    "day": "Studied technical specifications of machines and technologies used by the organization.",
+    "task": "Technology specification analysis",
+    "status": "Completed",
+    "learning": "Gained knowledge of hardware/software specifications",
+    "challenge": "Technical jargon needed extra research",
+    "rating": "6",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic4.jpeg"
+  },
+  "07/27/2026": {
+    "day": "Started building a software dashboard web application for internal tracking and visualization.",
+    "task": "Dashboard web app development",
+    "status": "In-progress",
+    "learning": "Frontend dashboard design and layout structuring",
+    "challenge": "Deciding the right UI components for data display",
+    "rating": "8",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic5.jpeg"
+  },
+  "07/28/2026": {
+    "day": "Continued dashboard development and worked on integrating location and map features.",
+    "task": "Maps and location integration",
+    "status": "In-progress",
+    "learning": "Map API integration basics",
+    "challenge": "Handling map API keys and permissions",
+    "rating": "7",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic6.jpeg"
+  },
+  "07/29/2026": {
+    "day": "Worked on backend-frontend integration of dashboard with location data.",
+    "task": "System integration",
+    "status": "In-progress",
+    "learning": "Connecting frontend UI with backend data sources",
+    "challenge": "Syncing real-time location data smoothly",
+    "rating": "7",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic7.jpeg"
+  },
+  "07/30/2026": {
+    "day": "Finalized dashboard features and tested location/map functionality.",
+    "task": "Testing and refinement of dashboard",
+    "status": "Completed",
+    "learning": "Debugging and testing web applications",
+    "challenge": "Fixing minor UI responsiveness issues",
+    "rating": "8",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic8.jpeg"
+  },
+  "07/31/2026": {
+    "day": "Compiled project work and prepared the final report/project file for submission.",
+    "task": "Report and project file preparation",
+    "status": "Completed",
+    "learning": "Documentation and report writing skills",
+    "challenge": "Summarizing technical work concisely",
+    "rating": "8",
+    "engaged": "Yes",
+    "photo": "C:\\Users\\Prashu Chauhan\\OneDrive\\Pictures\\DRR_Photos\\pic8.jpeg"
+  }
+}
