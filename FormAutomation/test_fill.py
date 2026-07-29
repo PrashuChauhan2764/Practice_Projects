@@ -8,12 +8,7 @@ import time
 
 
 #function for text field
-def fill_by_label(driver, label_text, value):
-    question = driver.find_element(By.XPATH, f"//span[text()='{label_text}']/ancestor::div[@jsname='WsjYwc']"
-    )
-    textbox = question.find_element(By.TAG_NAME, "input") 
-    textbox.clear()
-    textbox.send_keys(value)   
+   
 
 #function for dropdown
 def select_dropdown(driver, label_text, option_text):
@@ -53,18 +48,7 @@ def fill_date(driver, label_text, date_value):
     print(f"{label_text} filled")
 
 #function for textarea
-def fill_textarea(driver, label_text, value):
-    question = driver.find_element(
-        By.XPATH,
-        f"//span[contains(text(),'{label_text}')]/ancestor::div[@jsname='WsjYwc']"
-    )
 
-    textarea = question.find_element(By.TAG_NAME, "textarea")
-
-    textarea.clear()
-    textarea.send_keys(value)
-
-    print(f"{label_text} filled")
 
 #universal function
 def fill_text(driver, label_text, value):
@@ -125,16 +109,7 @@ time.sleep(2)
 click_next(driver)
 time.sleep(2)
 
-# fill_textarea(
-#     driver,
-#     "1. How did your day go? (Briefly describe what you did today — meetings, tasks, field visits, research, etc.)",
-#     "Met the client, discussed project requirements and completed documentation."
-# )
-# time.sleep(2)
-# fill_by_label(driver,
-#     "What task was assigned to you today?",
-#     "Technical Research work."
-# )
+
 
 #new universal method for both input or textarea
 fill_text(driver, "1. How did your day go?", "Met the client and completed documentation.")
