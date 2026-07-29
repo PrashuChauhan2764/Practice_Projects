@@ -4,7 +4,30 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import json
+from datetime import date
 import time
+
+
+
+
+#load DRR data from the json file
+with open("drr_data.json", "r") as f:
+    drr_data = json.load(f)
+
+today = date.today().strftime("%m/%d/%Y")
+
+if today not in drr_data:
+    raise ValueError(f"No DRR data found for {today}. Please add today's entry in drr_data.json")
+
+entry = drr_data[today]
+print(f"Loaded DRR data for {today}")
+
+
+
+
 
 
 #function for text field
@@ -86,6 +109,69 @@ def select_radio(driver, question_text, option_text):
 
     print(f"{option_text} selected")  
 
+
+#function for file upload
+def upload_file(driver, label_text, file_path):
+    question = driver.find_element(
+        By.XPATH,
+        f"//span[contains(text(),'{label_text}')]/ancestor::div[@jsname='WsjYwc']"
+    )
+
+    #click the "Add file" button
+    add_button = question.find_element(By.XPATH, ".//span[text()='Add file']")
+    driver.execute_script("arguments[0].scrollIntoView(true);", add_button)
+    driver.execute_script("arguments[0].click();", add_button)
+    print("Add file button clicked")
+
+    #wait for the upload iframe to appear
+    iframe = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//iframe[contains(@src,'docs.google.com')]"))
+    )
+    driver.switch_to.frame(iframe)
+
+    #find the file input inside the iframe and send the path
+    file_input = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='file']"))
+    )
+    file_input.send_keys(file_path)
+    print(f"{label_text} uploaded")
+
+    time.sleep(3)
+    driver.switch_to.default_content()
+
+
+#function to toggle "Send me a copy of my responses"
+def send_copy_checkbox(driver):
+    checkbox = driver.find_element(
+        By.XPATH,
+        "//div[@role='checkbox' and @aria-label='Send me a copy of my responses.']"
+    )
+    if checkbox.get_attribute("aria-checked") == "false":
+        driver.execute_script("arguments[0].click();", checkbox)
+        print("Send me a copy - enabled")
+    else:
+        print("Send me a copy - already enabled")
+
+
+#function to submit the form
+def click_submit(driver):
+    submit_button = driver.find_element(
+        By.XPATH,
+        "//div[@role='button' and @aria-label='Submit']"
+    )
+    driver.execute_script("arguments[0].scrollIntoView(true);", submit_button)
+    driver.execute_script("arguments[0].click();", submit_button)
+    print("Form submitted")
+
+#function to sumbit another response
+# def submit_another_response(driver):
+#     link = driver.find_element(By.LINK_TEXT, "Submit another response")
+#     driver.execute_script("arguments[0].click();", link)
+#     print("Reloaded form for new response")
+
+
+
+
 options = Options()
 options.add_argument(r"--user-data-dir=C:\SeleniumProfile")
 
@@ -102,7 +188,8 @@ print(checkbox.get_attribute("aria-checked"))
 if checkbox.get_attribute("aria-checked") == "false":
     checkbox.click()
 
-    
+
+#FUNCTIONS CALL    
 time.sleep(2)
 fill_text(driver, "SAP Id", "590016978")
 time.sleep(2)
@@ -118,7 +205,7 @@ time.sleep(3)
 #page 2
 select_dropdown(driver, "Startup Name", "XO11 UAV SYSTEMS")
 time.sleep(2)
-fill_date(driver, "Date", "06-16-2026")
+fill_date(driver, "Date", today)
 time.sleep(2)
 fill_text(driver, "Name of the Mentor", "krishna Pratap Singh")
 time.sleep(2)
@@ -130,22 +217,18 @@ time.sleep(2)
 
 
 #new universal method for both input or textarea
-fill_text(driver, "1. How did your day go?", "Met the client and completed documentation.")
+fill_text(driver, "1. How did your day go?", entry["day"])
 time.sleep(2)
-fill_text(driver, "What task was assigned to you today?", "Technical Research work.")
+fill_text(driver, "What task was assigned to you today?", entry["task"])
 time.sleep(2)
-select_radio(
-    driver,
-    "Status of the task",
-    "In-progress"
-)
-
-
 # select_radio(
 #     driver,
 #     "Status of the task",
-#     "Completed"
+#     "In-progress"
 # )
+
+
+select_radio(driver,"Status of the task",entry["status"])
 
 
 # select_radio(
@@ -154,27 +237,34 @@ select_radio(
 #     "pending"
 # )
 time.sleep(2)
-fill_text(driver,"What did you learn today? (Any new skill — technical, communication, teamwork, etc.)", "Software Building Skills")
+fill_text(driver,"What did you learn today? (Any new skill — technical, communication, teamwork, etc.)", entry["learning"])
 time.sleep(2)
-fill_text(driver,"Any challenge you faced? (What went wrong or felt difficult? How did you handle it?)", "Nothing")
+fill_text(driver,"Any challenge you faced? (What went wrong or felt difficult? How did you handle it?)", entry["challenge"])
 time.sleep(2)
-#select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","3")
-select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","4")
-# select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","5")
-# select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","6")
+select_radio(driver,"On a scale of 1–10,",entry["rating"])
+#select_radio(driver,"On a scale of 1–10","4")
+# select_radio(driver,"On a scale of 1–10,","5")
+# select_radio(driver,"On a scale of 1–10,","6")
 
-select_radio(driver,"Did you feel engaged and productive today?","Yes")
-#select_radio(driver,"Did you feel engaged and productive today?","No")
+#select_radio(driver,"Did you feel engaged and productive today?","Yes")
+time.sleep(1)
+select_radio(driver,"Did you feel engaged and productive today?",entry["engaged"])
 time.sleep(2)
 select_radio(driver,"SIO Name","Krishna Pratap Singh")
+time.sleep(2)
+upload_file(driver, "Geo Tag Photos", entry["photo"])
+time.sleep(2)
+send_copy_checkbox(driver)
+time.sleep(2)
+
+click_submit(driver)
+time.sleep(2)
+
+#call to another form response
+#submit_another_response(driver)
 
 
 
-
-
-
-
-
-time.sleep(7)
-
+#<------------end--------->
+time.sleep(10)
 driver.quit()
