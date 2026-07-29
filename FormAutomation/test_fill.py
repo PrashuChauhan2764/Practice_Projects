@@ -3,6 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 
@@ -75,7 +76,7 @@ def fill_text(driver, label_text, value):
 
     try:
         box = question.find_element(By.TAG_NAME, "textarea")
-    except:
+    except NoSuchElementException:
         box = question.find_element(By.TAG_NAME, "input")
 
     box.clear()
@@ -101,11 +102,11 @@ if checkbox.get_attribute("aria-checked") == "false":
 
     
 time.sleep(2)
-fill_by_label(driver, "SAP Id", "590016978")
+fill_text(driver, "SAP Id", "590016978")
 time.sleep(2)
-fill_by_label(driver, "Name", "Prashu Chauhan")
+fill_text(driver, "Name", "Prashu Chauhan")
 time.sleep(2)
-fill_by_label(driver, "College Mail Id", "Prashu.16978@stu.upes.ac.in")
+fill_text(driver, "College Mail Id", "Prashu.16978@stu.upes.ac.in")
 time.sleep(4)
 select_dropdown(driver,"School", "School of Computer Science")
 time.sleep(2)
@@ -117,9 +118,9 @@ select_dropdown(driver, "Startup Name", "XO11 UAV SYSTEMS")
 time.sleep(2)
 fill_date(driver, "Date", "06-16-2026")
 time.sleep(2)
-fill_by_label(driver, "Name of the Mentor", "krishna Pratap Singh")
+fill_text(driver, "Name of the Mentor", "krishna Pratap Singh")
 time.sleep(2)
-fill_by_label(driver,"Name of the Group Lead", "Kuber Jindal")
+fill_text(driver,"Name of the Group Lead", "Kuber Jindal")
 time.sleep(2)
 click_next(driver)
 time.sleep(2)
