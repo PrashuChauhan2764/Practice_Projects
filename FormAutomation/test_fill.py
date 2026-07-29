@@ -68,6 +68,24 @@ def fill_text(driver, label_text, value):
 
     print(f"{label_text} filled")
 
+
+#radio button function
+def select_radio(driver, question_text, option_text):
+
+    question = driver.find_element(
+        By.XPATH,
+        f"//span[contains(text(),'{question_text}')]/ancestor::div[@jsname='WsjYwc']"
+    )
+
+    option = question.find_element(
+        By.XPATH,
+        f".//div[@role='radio' and @aria-label='{option_text}']"
+    )
+
+    driver.execute_script("arguments[0].click();", option)
+
+    print(f"{option_text} selected")  
+
 options = Options()
 options.add_argument(r"--user-data-dir=C:\SeleniumProfile")
 
@@ -115,6 +133,41 @@ time.sleep(2)
 fill_text(driver, "1. How did your day go?", "Met the client and completed documentation.")
 time.sleep(2)
 fill_text(driver, "What task was assigned to you today?", "Technical Research work.")
+time.sleep(2)
+select_radio(
+    driver,
+    "Status of the task",
+    "In-progress"
+)
+
+
+# select_radio(
+#     driver,
+#     "Status of the task",
+#     "Completed"
+# )
+
+
+# select_radio(
+#     driver,
+#     "Status of the task",
+#     "pending"
+# )
+time.sleep(2)
+fill_text(driver,"What did you learn today? (Any new skill — technical, communication, teamwork, etc.)", "Software Building Skills")
+time.sleep(2)
+fill_text(driver,"Any challenge you faced? (What went wrong or felt difficult? How did you handle it?)", "Nothing")
+time.sleep(2)
+#select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","3")
+select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","4")
+# select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","5")
+# select_radio(driver,"On a scale of 1–10, how satisfied are you with today's work experience?","6")
+
+select_radio(driver,"Did you feel engaged and productive today?","Yes")
+#select_radio(driver,"Did you feel engaged and productive today?","No")
+time.sleep(2)
+select_radio(driver,"SIO Name","Krishna Pratap Singh")
+
 
 
 
