@@ -9,28 +9,42 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 from datetime import date
 import time
+import os
 
 
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(script_dir, "drr_data.json")
 
 
 #load DRR data from the json file
-with open("drr_data.json", "r") as f:
+with open(json_path, "r") as f:
     drr_data = json.load(f)
 
-today = date.today().strftime("%m/%d/%Y")
 
-if today not in drr_data:
-    raise ValueError(f"No DRR data found for {today}. Please add today's entry in drr_data.json")
+#INSTEAD OF TODAY I USSE SELECT DATE TO FILL DRR FOR
+# today = date.today().strftime("%m/%d/%Y")
+# if today not in drr_data:
+#     raise ValueError(f"No DRR data found for {today}. Please add today's entry in drr_data.json")
 
-entry = drr_data[today]
-print(f"Loaded DRR data for {today}")
-
-
-
+# entry = drr_data[today]
+# print(f"Loaded DRR data for {today}")
 
 
+#SELECT DATE CHOICE
+selected_date = input("Enter the DRR date to fill (MM/DD/YYYY): ").strip()
+if selected_date not in drr_data:
+    raise ValueError(f"No DRR data found for {selected_date}. Check drr_data.json entries.")
 
-#function for text field
+entry = drr_data[selected_date]
+print(f"Loaded DRR data for {selected_date}")
+
+
+
+
+
+
+
    
 
 #function for dropdown
@@ -70,10 +84,30 @@ def fill_date(driver, label_text, date_value):
     date_box.send_keys(date_value)
     print(f"{label_text} filled")
 
-#function for textarea
 
 
-#universal function
+
+#universal function version 1
+# def fill_text(driver, label_text, value):
+
+#     question = driver.find_element(
+#         By.XPATH,
+#         f"//span[contains(text(),'{label_text}')]/ancestor::div[contains(@class,'Qr7Oae')]"
+#     )
+
+#     try:
+#         box = question.find_element(By.TAG_NAME, "textarea")
+#     except NoSuchElementException:
+#         box = question.find_element(By.TAG_NAME, "input")
+
+#     box.clear()
+#     box.send_keys(value)
+
+#     print(f"{label_text} filled")
+
+
+
+#version2 universal function
 def fill_text(driver, label_text, value):
 
     question = driver.find_element(
@@ -86,10 +120,18 @@ def fill_text(driver, label_text, value):
     except NoSuchElementException:
         box = question.find_element(By.TAG_NAME, "input")
 
+    #scroll into view and wait until it's actually interactable
+    driver.execute_script("arguments[0].scrollIntoView({block:'center'});", box)
+    WebDriverWait(driver, 10).until(EC.visibility_of(box))
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(box))
+
     box.clear()
     box.send_keys(value)
 
     print(f"{label_text} filled")
+
+
+
 
 
 #radio button function
@@ -190,6 +232,7 @@ if checkbox.get_attribute("aria-checked") == "false":
 
 
 #FUNCTIONS CALL    
+#page1------------------------------>
 time.sleep(2)
 fill_text(driver, "SAP Id", "590016978")
 time.sleep(2)
@@ -200,19 +243,23 @@ time.sleep(4)
 select_dropdown(driver,"School", "School of Computer Science")
 time.sleep(2)
 click_next(driver)
+
+
+#page2------------------------------>
 time.sleep(3)
 
 #page 2
 select_dropdown(driver, "Startup Name", "XO11 UAV SYSTEMS")
 time.sleep(2)
-fill_date(driver, "Date", today)
+#fill_date(driver, "Date", today)
+fill_date(driver, "Date", selected_date)
 time.sleep(2)
 fill_text(driver, "Name of the Mentor", "krishna Pratap Singh")
 time.sleep(2)
 fill_text(driver,"Name of the Group Lead", "Kuber Jindal")
 time.sleep(2)
 click_next(driver)
-time.sleep(2)
+time.sleep(3)
 
 
 
