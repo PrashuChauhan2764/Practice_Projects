@@ -13,8 +13,20 @@ import os
 
 
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-json_path = os.path.join(script_dir, "drr_data.json")
+'''script_dir = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(script_dir, "drr_data.json")'''
+
+
+#for .exe file
+import sys
+import os
+
+if getattr(sys, "frozen", False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(os.path.abspath(__file__))
+
+json_path = os.path.join(base_path, "drr_data.json")
 
 
 #load DRR data from the json file
@@ -87,23 +99,7 @@ def fill_date(driver, label_text, date_value):
 
 
 
-#universal function version 1
-# def fill_text(driver, label_text, value):
 
-#     question = driver.find_element(
-#         By.XPATH,
-#         f"//span[contains(text(),'{label_text}')]/ancestor::div[contains(@class,'Qr7Oae')]"
-#     )
-
-#     try:
-#         box = question.find_element(By.TAG_NAME, "textarea")
-#     except NoSuchElementException:
-#         box = question.find_element(By.TAG_NAME, "input")
-
-#     box.clear()
-#     box.send_keys(value)
-
-#     print(f"{label_text} filled")
 
 
 
@@ -278,22 +274,16 @@ time.sleep(2)
 select_radio(driver,"Status of the task",entry["status"])
 
 
-# select_radio(
-#     driver,
-#     "Status of the task",
-#     "pending"
-# )
+
 time.sleep(2)
 fill_text(driver,"What did you learn today? (Any new skill — technical, communication, teamwork, etc.)", entry["learning"])
 time.sleep(2)
 fill_text(driver,"Any challenge you faced? (What went wrong or felt difficult? How did you handle it?)", entry["challenge"])
 time.sleep(2)
 select_radio(driver,"On a scale of 1–10,",entry["rating"])
-#select_radio(driver,"On a scale of 1–10","4")
-# select_radio(driver,"On a scale of 1–10,","5")
-# select_radio(driver,"On a scale of 1–10,","6")
 
-#select_radio(driver,"Did you feel engaged and productive today?","Yes")
+
+
 time.sleep(1)
 select_radio(driver,"Did you feel engaged and productive today?",entry["engaged"])
 time.sleep(2)
